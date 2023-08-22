@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, filter, scan } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { CheckEqualityValidator } from './check-equality.validator';
@@ -12,12 +12,31 @@ import { CheckEqualityValidator } from './check-equality.validator';
 export class AppComponent {
 
   destryRef = inject(DestroyRef);
-  gameForm: FormGroup = new FormGroup({});
   correctAnswerCount: number = 0;
   secondsPerAnswer = 0;
 
+  gameLevels = [
+    {
+      levelName: "Easy",
+      levelValue: 10
+    },
+    {
+      levelName: "medium",
+      levelValue: 100
+    },
+    {
+      levelName: "hard",
+      levelValue: 1000
+    }
+  ];
+  selectedGameValue = 10;
+  
+  gameForm: FormGroup = new FormGroup({});
+  chooseGameLevelForm: FormGroup = new FormGroup({});
+
   ngOnInit(): void {
     this.initializeGameForm();
+    this.initializeChooseGameLevelForm();
 
     this.gameForm.statusChanges.pipe(
       debounceTime(1000),
@@ -59,6 +78,12 @@ export class AppComponent {
     }, [CheckEqualityValidator.checkEquality("a", "b", "answer")]);
   }
 
+  initializeChooseGameLevelForm(){
+    this.chooseGameLevelForm = new FormGroup({
+      level: new FormControl(10, [Validators.required])
+    })
+  }
+
   get a (){
     return this.gameForm.get("a")?.value;
   }
@@ -68,18 +93,20 @@ export class AppComponent {
   }
 
   generateRandomNum() {
-    return Math.floor(Math.random() * 10);
+    return Math.floor(Math.random() * this.selectedGameValue);
   }
 
-  checkAnswerInputValidation() {
+  checkInputValidation() {
     return this.gameForm.invalid && this.gameForm.dirty
   }
 
-  highlightAnswer(a: number, b: number, answer: number){
-    if(Math.abs( (a+b - answer) / (a+b) ) < 0.2){
-      return true
-    }
-    return false;
+  chooseGameLevel(event: Event){
+    if(!this.chooseGameLevelForm.valid){
+      event.preventDefault();
+      return;
+    }        
+    this.selectedGameValue = this.chooseGameLevelForm.value.level;
+    this.resetForm();
   }
 
   resetForm() {
