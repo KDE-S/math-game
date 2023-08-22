@@ -8,7 +8,7 @@
           <span class="input-group-text">+</span>
           <span class=" text-light bg-secondary py-2 px-5">{{b}}</span>
           <span class="input-group-text"> = </span>
-          <input class="form-control" type="number" formControlName="answer" equationGameBgChanger [ngClass]="{'is-invalid': checkAnswerInputValidation(), 'near-highlight': highlightAnswer(a, b, +answer.value)}" #answer>
+          <input class="form-control" type="number" formControlName="answer" appBgChange [ngClass]="{'is-invalid': checkAnswerInputValidation()}" >
         </div>
         <button type="button" class="btn btn-info mt-2" (click)="resetForm()">reset</button>
         <button type="submit" class="btn btn-primary ms-2 mt-2">Check</button>
