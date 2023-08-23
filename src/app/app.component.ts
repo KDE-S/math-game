@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       return;
     }
     this.selectedGameValue = this.chooseGameLevelForm.value.level;
-    this.resetForm();
+    this.resetGame();
   }
 
   resetForm() {
