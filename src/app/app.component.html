@@ -2,11 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8 col-xl-7">
       <div class="game-box">
-        <h5 class="text-center">Equation Game</h5>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Choose Game Level
-        </button>
+        <h3 class="text-center">Equation Game</h3>
         <form [formGroup]="gameForm">
           <div class="input-box mt-4">
             <span class="number-box py-2 px-5">{{a}}</span>
@@ -16,14 +12,24 @@
             <input class="form-control answer-input" type="number" formControlName="answer" appBgChange
               [ngClass]="{'is-invalid': checkInputValidation()}">
           </div>
-          <button type="button" class="btn btn-info mt-2" (click)="resetForm()">reset</button>
-          <button type="submit" class="btn btn-primary ms-2 mt-2">Check</button>
-          <button class="btn btn-secondary ms-2 mt-2">
-            Correct Answers: <span class="badge text-bg-secondary">{{correctAnswerCount}}</span>
-          </button>
-          <button class="btn btn-warning ms-2 mt-2">
-            Seconds Per Answer: {{secondsPerAnswer | number: '1.2'}}
-          </button>
+          <div class="game-result">
+            <span class="corrects ms-2 mt-2">
+              Correct Answers: {{correctAnswerCount}}
+            </span>
+            <span class="seconds ms-2 mt-2">
+              Seconds Per Answer: {{secondsPerAnswer | number: '1.2'}}
+            </span>
+          </div>
+          <hr class="separator mt-5">
+          <div class="game-setting">
+            <button type="button" class="btn btn-primary btn-sm" (click)="startGame()">Start Game</button>
+            <button type="button" class="btn btn-warning btn-sm ms-2" (click)="resetGame()">Reset Game</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-info btn-sm ms-2" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" #chooseGameLevelBtn>
+              Choose Game Level
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -34,10 +40,6 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Choose Game Level</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
       <form [formGroup]="chooseGameLevelForm" (ngSubmit)="chooseGameLevel($event)">
         <div class="modal-body text-center">
           <h5>Welcome to Math Game!</h5>
@@ -47,7 +49,7 @@
             <option [ngValue]="level.levelValue" *ngFor="let level of gameLevels">{{level.levelName}}</option>
           </select>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-center">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Go</button>
         </div>

@@ -3,7 +3,7 @@
   height: 100vh;
   background-repeat: repeat;
   background-size: contain;
-  background-position: center;
+  background-position: right;
   background-color: white;
   background-blend-mode: hard-light;
 }
@@ -36,6 +36,18 @@
   margin-left: 2rem;
   font-size: 2rem;
   text-align: center;
+}
+
+.game-result {
+  margin-top: 2;
+}
+
+.game-result span {
+  border: 3px solid darkseagreen;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: forestgreen;
+  color: white;
 }
 
 .near-highlight {
