@@ -42,7 +42,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.initializeGameForm();
     this.initializeChooseGameLevelForm();
   }
-  
+
   ngAfterViewInit(): void {
     this.chooseGameLevelBtn.nativeElement.click();
   }
@@ -87,42 +87,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   resetForm() {
-    this.gameForm.reset({ a: this.generateRandomNum(), b: this.generateRandomNum() });
+    this.gameForm.reset({ a: this.generateRandomNum(), b: this.generateRandomNum(), answer: null });
   }
 
   startGame() {
-    if(!this.gameStarted)
-    this.gameStarted = true;
-    this.startGameSub = this.gameForm.statusChanges.pipe(
-      debounceTime(1000),
-      filter(res => res === "VALID"),
-      scan(
-        (acc) => {
-          let result = {
-            startTime: acc.startTime,
-            correctAnswerCount: ++acc.correctAnswerCount
-          };
-          return result;
-        },
+    if (!this.gameStarted) {
+      this.gameStarted = true;
+      this.startGameSub = this.gameForm.statusChanges.pipe(
+        debounceTime(1000),
+        filter(res => res === "VALID"),
+        scan(
+          (acc) => {
+            let result = {
+              startTime: acc.startTime,
+              correctAnswerCount: ++acc.correctAnswerCount
+            };
+            return result;
+          },
+          {
+            startTime: new Date().getTime(),
+            correctAnswerCount: 0
+          }
+        ),
+        takeUntilDestroyed(this.destryRef)
+      ).subscribe(
         {
-          startTime: new Date().getTime(),
-          correctAnswerCount: 0
+          next: (res) => {
+            this.correctAnswerCount = res.correctAnswerCount;
+            this.secondsPerAnswer = (new Date().getTime() - res.startTime) / this.correctAnswerCount / 1000;
+            this.resetForm();
+          }
         }
-      ),
-      takeUntilDestroyed(this.destryRef)
-    ).subscribe(
-      {
-        next: (res) => {
-          this.correctAnswerCount = res.correctAnswerCount;
-          this.secondsPerAnswer = (new Date().getTime() - res.startTime) / this.correctAnswerCount / 1000;
-          this.gameForm.reset({
-            a: this.generateRandomNum(),
-            b: this.generateRandomNum(),
-            answer: null
-          })
-        }
-      }
-    )
+      )
+    }
   }
 
   resetGame() {
