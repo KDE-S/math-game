@@ -3,6 +3,7 @@
     <div class="col-12 col-md-10 col-lg-8 col-xl-7">
       <div class="game-box">
         <h3 class="text-center">Equation Game</h3>
+        <span class="game-status">{{gameStarted ? "Game Started!" : ""}}</span>
         <form [formGroup]="gameForm">
           <div class="input-box mt-4">
             <span class="number-box py-2 px-5">{{a}}</span>
@@ -25,7 +26,7 @@
             <button type="button" class="btn btn-primary btn-sm" (click)="startGame()">Start Game</button>
             <button type="button" class="btn btn-warning btn-sm ms-2" (click)="resetGame()">Reset Game</button>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-info btn-sm ms-2" data-bs-toggle="modal"
+            <button type="button" class="btn btn-info btn-sm ms-2 mt-2 mt-md-0" data-bs-toggle="modal"
               data-bs-target="#exampleModal" #chooseGameLevelBtn>
               Choose Game Level
             </button>

@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   startGameSub: Subscription | null = null;
   correctAnswerCount: number = 0;
   secondsPerAnswer = 0;
+  gameStarted: boolean = false;
 
   gameLevels = [
     {
@@ -90,6 +91,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   startGame() {
+    if(!this.gameStarted)
+    this.gameStarted = true;
     this.startGameSub = this.gameForm.statusChanges.pipe(
       debounceTime(1000),
       filter(res => res === "VALID"),
@@ -123,6 +126,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   resetGame() {
+    this.gameStarted = false;
     this.startGameSub?.unsubscribe();
     this.correctAnswerCount = 0;
     this.secondsPerAnswer = 0;
