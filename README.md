@@ -1,7 +1,6 @@
 # MathGame
 
-This project is a simple math game, with 3 difficulty levels. You must calculate sum of two number that shown to you as soon. If your answer is near the correct answer, the field background will be gray. If your answer is correct, the filed background will be green, and next numbers will show to you.
-After each correct answer, total correct answers, and estimated seconds left per answer will be updated.
+This project is a simple math game with 3 levels of difficulty. You have to calculate the sum of the two numbers shown to you. If your answer is close to the correct answer, the background of the field will be gray. If your answer is correct, the background of the field will turn green and the next two numbers will be shown to you. After each correct answer, the total number of correct answers and the average elapsed seconds per answer are updated.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
 
